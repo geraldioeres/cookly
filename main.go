@@ -8,3 +8,6 @@ func main() {
 func addition(a, b int) int {
 	return a + b
 }
+func subtraction(a, b int) int {
+	return a - b
+}
