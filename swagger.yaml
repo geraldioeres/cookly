@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: cookly API
+  description: cookly API is an API to display recipes and save it
+  version: "1.0.0"
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    name: Geraldio Ramadhan Safitri
+    email: geralmers01@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/geralmers01/cookly/1.0.0
+  - url: 'https://petstore.swagger.io/v2'
