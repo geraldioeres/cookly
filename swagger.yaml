@@ -15,3 +15,8 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/geralmers01/cookly/1.0.0
   - url: 'https://petstore.swagger.io/v2'
+tags:
+  - name: users
+    description: Everything about users
+  - name: recipes
+    description: Everything about recipes
