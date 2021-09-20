@@ -38,12 +38,55 @@ type Collections struct {
 }
 
 type Reviews struct {
-	ID int
-	UserID int
-	RecipeID int
-	Rating int
+	ID          int
+	UserID      int
+	RecipeID    int
+	Rating      int
 	Description string
-	CreatedAt time.Time
+	CreatedAt   time.Time
+	ModifiedAt  time.Time
+}
+
+type UserCart struct {
+	ID              int
+	UserID          int
+	PaymentMethodID int
+	CreatedAt       time.Time
+	ModifiedAt      time.Time
+}
+
+type CartProducts struct {
+	ID            int
+	UserCartID    int
+	ProductID     int
+	TotalPrice    int
+	TotalQuantity int
+	CreatedAt     time.Time
+	ModifiedAt    time.Time
+}
+
+type PaymentMethods struct {
+	ID         int
+	Name       string
+	CreatedAt  time.Time
+	ModifiedAt time.Time
+}
+
+type Products struct {
+	ID            int
+	ProductTypeID int
+	Name          string
+	Description   string
+	Price         int
+	Status        string
+	CreatedAt     time.Time
+	ModifiedAt    time.Time
+}
+
+type ProductTypes struct {
+	ID         int
+	Name       string
+	CreatedAt  time.Time
 	ModifiedAt time.Time
 }
 
