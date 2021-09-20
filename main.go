@@ -2,14 +2,6 @@ package main
 
 import "time"
 
-type Users struct {
-	ID         int
-	Name       string
-	Email      string
-	Password   string
-	Created_At time.Time
-	ModifiedAt time.Time
-}
 
 type Recipes struct {
 	ID           int
