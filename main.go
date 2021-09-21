@@ -1,7 +1,10 @@
 package main
 
-import "time"
-
+import (
+	"net/http"
+	"time"
+	"cookly/controllers"
+)
 
 type Recipes struct {
 	ID           int
@@ -83,5 +86,5 @@ type ProductTypes struct {
 }
 
 func main() {
-
+	http.HandleFunc("/login", controllers.UserLogin())
 }
