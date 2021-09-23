@@ -72,10 +72,11 @@ func RegisterController(c echo.Context) error {
 }
 
 func GetUserByID(c echo.Context) error {
-	var usersById users.User
+	var user users.User
+	var getUser users.GetUserByID
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	result := configs.DB.First(&usersById, id)
+	result := configs.DB.Model(&user).First(&getUser, id)
 	if result.Error != nil {
 		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
 			Code:    http.StatusBadRequest,
@@ -87,6 +88,6 @@ func GetUserByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
 		Message: "Success get user data",
-		Data:   usersById ,
+		Data:    getUser,
 	})
-} 
+}
