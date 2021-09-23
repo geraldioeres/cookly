@@ -5,6 +5,7 @@ import (
 	"cookly/models/responses"
 	"cookly/models/users"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -65,7 +66,27 @@ func RegisterController(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
-		Message: "Resitration Success",
+		Message: "Registration Success",
 		Data:    nil,
 	})
 }
+
+func GetUserByID(c echo.Context) error {
+	var usersById users.User
+
+	id, _ := strconv.Atoi(c.Param("id"))
+	result := configs.DB.First(&usersById, id)
+	if result.Error != nil {
+		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
+			Code:    http.StatusBadRequest,
+			Message: "Failed to get user data",
+			Data:    nil,
+		})
+	}
+
+	return c.JSON(http.StatusOK, responses.BaseResponse{
+		Code:    http.StatusOK,
+		Message: "Success get user data",
+		Data:   usersById ,
+	})
+} 

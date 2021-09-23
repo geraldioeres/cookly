@@ -13,6 +13,6 @@ func InitRoutes() *echo.Echo {
 	// Users
 	baseRoute.POST("/register", users.RegisterController)
 	baseRoute.POST("/login", users.LoginController)
-
+	baseRoute.GET("/users/:id", users.GetUserByID)
 	return e
 }
