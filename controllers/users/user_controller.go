@@ -1,9 +1,11 @@
 package users
 
 import (
+	"cookly/configs"
 	"cookly/models/responses"
 	"cookly/models/users"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -26,25 +28,25 @@ func RegisterController(c echo.Context) error {
 
 	if userRegister.Name == "" {
 		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
-			Code: http.StatusBadRequest,
+			Code:    http.StatusBadRequest,
 			Message: "Name cannot be blank!",
-			Data: nil,
+			Data:    nil,
 		})
 	}
 
 	if userRegister.Email == "" {
 		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
-			Code: http.StatusBadRequest,
+			Code:    http.StatusBadRequest,
 			Message: "Email cannot be blank!",
-			Data: nil,
+			Data:    nil,
 		})
 	}
 
 	if userRegister.Password == "" {
 		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
-			Code: http.StatusBadRequest,
+			Code:    http.StatusBadRequest,
 			Message: "Password cannot be blank!",
-			Data: nil,
+			Data:    nil,
 		})
 	}
 
@@ -52,4 +54,39 @@ func RegisterController(c echo.Context) error {
 	userDB.Name = userRegister.Name
 	userDB.Email = userRegister.Email
 	userDB.Password = userRegister.Password
+
+	result := configs.DB.Create(&userDB)
+	if result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Error when inserting user value to Database",
+			Data:    nil,
+		})
+	}
+
+	return c.JSON(http.StatusOK, responses.BaseResponse{
+		Code:    http.StatusOK,
+		Message: "Registration Success",
+		Data:    nil,
+	})
 }
+
+func GetUserByID(c echo.Context) error {
+	var usersById users.User
+
+	id, _ := strconv.Atoi(c.Param("id"))
+	result := configs.DB.First(&usersById, id)
+	if result.Error != nil {
+		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
+			Code:    http.StatusBadRequest,
+			Message: "Failed to get user data",
+			Data:    nil,
+		})
+	}
+
+	return c.JSON(http.StatusOK, responses.BaseResponse{
+		Code:    http.StatusOK,
+		Message: "Success get user data",
+		Data:   usersById ,
+	})
+} 
