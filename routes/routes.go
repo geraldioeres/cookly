@@ -19,5 +19,6 @@ func InitRoutes() *echo.Echo {
 	// Recipes
 	recipeRoute := baseRoute.Group("/recipes")
 	recipeRoute.GET("", recipes.GetRecipesController)
+	recipeRoute.POST("", recipes.CreateRecipeController)
 	return e
 }
