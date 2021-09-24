@@ -77,8 +77,8 @@ func GetUserByID(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	result := configs.DB.First(&usersById, id)
 	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
-			Code:    http.StatusBadRequest,
+		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
+			Code:    http.StatusInternalServerError,
 			Message: "Failed to get user data",
 			Data:    nil,
 		})
