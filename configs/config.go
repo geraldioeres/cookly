@@ -1,6 +1,8 @@
 package configs
 
 import (
+	recipecategory "cookly/models/recipe_category"
+	"cookly/models/recipes"
 	"cookly/models/users"
 	"log"
 
@@ -21,5 +23,5 @@ func InitDB() {
 }
 
 func Migration() {
-	DB.AutoMigrate(&users.User{})
+	DB.AutoMigrate(&users.User{}, &recipes.Recipe{}, &recipecategory.RecipeCategory{})
 }

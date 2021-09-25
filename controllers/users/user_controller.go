@@ -67,7 +67,7 @@ func RegisterController(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
 		Message: "Registration Success",
-		Data:    nil,
+		Data:    userDB,
 	})
 }
 
@@ -87,6 +87,6 @@ func GetUserByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
 		Message: "Success get user data",
-		Data:   usersById ,
+		Data:    usersById,
 	})
-} 
+}

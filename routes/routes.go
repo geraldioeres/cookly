@@ -1,6 +1,7 @@
 package routes
 
 import (
+	recipecategory "cookly/controllers/recipe_category"
 	"cookly/controllers/recipes"
 	"cookly/controllers/users"
 
@@ -20,5 +21,9 @@ func InitRoutes() *echo.Echo {
 	recipeRoute := baseRoute.Group("/recipes")
 	recipeRoute.GET("", recipes.GetRecipesController)
 	recipeRoute.POST("", recipes.CreateRecipeController)
+ 
+	// Recipe Category
+	recipeCatRoute := baseRoute.Group("/category")
+	recipeCatRoute.POST("", recipecategory.CreateCategoryController)
 	return e
 }
