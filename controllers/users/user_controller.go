@@ -67,7 +67,7 @@ func RegisterController(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
 		Message: "Registration Success",
-		Data:    nil,
+		Data:    userDB,
 	})
 }
 
@@ -77,8 +77,8 @@ func GetUserByID(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	result := configs.DB.First(&usersById, id)
 	if result.Error != nil {
-		return c.JSON(http.StatusBadRequest, responses.BaseResponse{
-			Code:    http.StatusBadRequest,
+		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
+			Code:    http.StatusInternalServerError,
 			Message: "Failed to get user data",
 			Data:    nil,
 		})
@@ -87,6 +87,6 @@ func GetUserByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
 		Message: "Success get user data",
-		Data:   usersById ,
+		Data:    usersById,
 	})
-} 
+}
