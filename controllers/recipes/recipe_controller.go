@@ -5,10 +5,31 @@ import (
 	"cookly/models/recipes"
 	"cookly/models/responses"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
+
+func GetRecipeByID(c echo.Context) error {
+	var recipeById recipes.Recipe
+
+	id, _ := strconv.Atoi(c.Param("id"))
+	result := configs.DB.First(&recipeById, id)
+	if result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to get recipe data",
+			Data:    nil,
+		})
+	}
+
+	return c.JSON(http.StatusOK, responses.BaseResponse{
+		Code:    http.StatusOK,
+		Message: "Success get recipe data",
+		Data:    recipeById,
+	})
+}
 
 func GetRecipesController(c echo.Context) error {
 	recipes := []recipes.Recipe{}

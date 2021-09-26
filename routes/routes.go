@@ -20,12 +20,12 @@ func InitRoutes() *echo.Echo {
 	// Recipes
 	baseRoute.POST("/recipes", recipes.CreateRecipeController)
 	baseRoute.GET("/recipes", recipes.GetRecipesController)
-	baseRoute.GET("/recipes/:id", users.GetRecipeByID)
+	baseRoute.GET("/recipes/:id", recipes.GetRecipeByID)
 	
  
 	// Recipe Category
 	baseRoute.POST("/category", recipecategory.CreateCategoryController)
-	baseRoute.POST("/category", recipecategory.GetCategoryController)
+	baseRoute.GET("/category", recipecategory.GetAllCategories)
 
 	return e
 }
