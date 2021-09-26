@@ -18,12 +18,14 @@ func InitRoutes() *echo.Echo {
 	baseRoute.GET("/users/:id", users.GetUserByID)
 
 	// Recipes
-	recipeRoute := baseRoute.Group("/recipes")
-	recipeRoute.GET("", recipes.GetRecipesController)
-	recipeRoute.POST("", recipes.CreateRecipeController)
+	baseRoute.POST("/recipes", recipes.CreateRecipeController)
+	baseRoute.GET("/recipes", recipes.GetRecipesController)
+	baseRoute.GET("/recipes/:id", users.GetRecipeByID)
+	
  
 	// Recipe Category
-	recipeCatRoute := baseRoute.Group("/category")
-	recipeCatRoute.POST("", recipecategory.CreateCategoryController)
+	baseRoute.POST("/category", recipecategory.CreateCategoryController)
+	baseRoute.POST("/category", recipecategory.GetCategoryController)
+
 	return e
 }
