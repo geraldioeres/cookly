@@ -4,6 +4,7 @@ import (
 	"cookly/controllers/ingredients"
 	recipecategory "cookly/controllers/recipe_category"
 	"cookly/controllers/recipes"
+	"cookly/controllers/reviews"
 	"cookly/controllers/users"
 
 	"github.com/labstack/echo/v4"
@@ -24,11 +25,15 @@ func InitRoutes() *echo.Echo {
 	baseRoute.GET("/recipes/:id", recipes.GetRecipeByID)
 
 	// Recipe Category
-	baseRoute.POST("/category", recipecategory.CreateCategoryController)
-	baseRoute.GET("/category", recipecategory.GetAllCategories)
+	baseRoute.POST("/categories", recipecategory.CreateCategoryController)
+	baseRoute.GET("/categories", recipecategory.GetAllCategories)
 
 	// Ingredients
-	baseRoute.POST("/ingredient", ingredients.CreateIngredient)
-	baseRoute.GET("/ingredient", ingredients.GetAllIngredients)
+	baseRoute.POST("/ingredients", ingredients.CreateIngredient)
+	baseRoute.GET("/ingredients", ingredients.GetAllIngredients)
+
+	// Review
+	baseRoute.POST("/reviews", reviews.CreateReview)
+	baseRoute.GET("/reviews/:id", reviews.RecipeReviews)
 	return e
 }
