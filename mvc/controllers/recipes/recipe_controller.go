@@ -1,9 +1,9 @@
 package recipes
 
 import (
-	"cookly/configs"
-	"cookly/models/recipes"
-	"cookly/models/responses"
+	"cookly/mvc/configs"
+	"cookly/mvc/models/recipes"
+	"cookly/mvc/models/responses"
 	"net/http"
 	"strconv"
 

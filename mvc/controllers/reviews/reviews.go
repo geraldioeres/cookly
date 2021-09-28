@@ -1,9 +1,9 @@
 package reviews
 
 import (
-	"cookly/configs"
-	"cookly/models/responses"
-	"cookly/models/reviews"
+	"cookly/mvc/configs"
+	"cookly/mvc/models/responses"
+	"cookly/mvc/models/reviews"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

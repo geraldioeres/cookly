@@ -1,8 +1,8 @@
 package recipes
 
 import (
-	recipecategory "cookly/models/recipe_category"
-	"cookly/models/users"
+	"cookly/mvc/models/recipe_category"
+	"cookly/mvc/models/users"
 	"time"
 
 	"gorm.io/gorm"
