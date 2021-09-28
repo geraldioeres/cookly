@@ -2,7 +2,9 @@ package users
 
 import (
 	"cookly/business/users"
+	"cookly/controllers"
 	"cookly/controllers/users/requests"
+	"cookly/controllers/users/responses"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -12,7 +14,7 @@ type UserController struct {
 	UserUseCase users.UseCase
 }
 
-func NewUserController(userUseCase users.UseCase) {
+func NewUserController(userUseCase users.UseCase) *UserController {
 	return &UserController{
 		UserUseCase: userUseCase,
 	}
