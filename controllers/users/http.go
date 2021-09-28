@@ -2,6 +2,7 @@ package users
 
 import (
 	"cookly/business/users"
+	"cookly/controllers/users/requests"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
