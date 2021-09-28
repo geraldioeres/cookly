@@ -1,4 +1,4 @@
-package ingredients
+package products
 
 import (
 	"time"

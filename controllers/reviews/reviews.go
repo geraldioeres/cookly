@@ -1,11 +1,35 @@
 package reviews
 
-// import "github.com/labstack/echo/v4"
+import (
+	"cookly/configs"
+	"cookly/models/responses"
+	"cookly/models/reviews"
+	"net/http"
 
-// func CreateReview(c echo.Context) error {
+	"github.com/labstack/echo/v4"
+)
 
-// }
+func CreateReview(c echo.Context) error {
+	var reviewInput reviews.CreateReview
+	c.Bind(&reviewInput)
 
-// func RecipeReviews(c echo.Context) error {
+	var reviewDB reviews.Review
+	reviewDB.UserID = reviewInput.UserID
+	reviewDB.RecipeID = reviewInput.RecipeID
+	reviewDB.Rating = reviewInput.Rating
+	reviewDB.RecipeReview = reviewInput.RecipeReview
 
-// }
+	result := configs.DB.Create(&reviewDB)
+	if result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to create review",
+			Data:    nil,
+		})
+	}
+	return c.JSON(http.StatusOK, responses.BaseResponse{
+		Code:    http.StatusOK,
+		Message: "Successfully created review",
+		Data:    reviewDB,
+	})
+}

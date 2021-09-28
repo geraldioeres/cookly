@@ -15,10 +15,10 @@ func CreateCategoryController(c echo.Context) error {
 	var typeInput recipecategory.CreateType
 	c.Bind(&typeInput)
 
-	var recipe_types recipecategory.RecipeCategory
-	recipe_types.Name = typeInput.Name
+	var recipe_cat recipecategory.RecipeCategory
+	recipe_cat.Name = typeInput.Name
 
-	result := configs.DB.Create(&recipe_types)
+	result := configs.DB.Create(&recipe_cat)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
 			Code:    http.StatusInternalServerError,
@@ -29,7 +29,7 @@ func CreateCategoryController(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
 		Message: "Successfully created recipe category",
-		Data:    recipe_types,
+		Data:    recipe_cat,
 	})
 }
 
