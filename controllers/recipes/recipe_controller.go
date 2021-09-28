@@ -70,15 +70,6 @@ func CreateRecipeController(c echo.Context) error {
 		})
 	}
 
-	join := configs.DB.Preload("RecipeCategory").Preload("User").Find(&recipes)
-	if join.Error != nil {
-		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
-			Code:    http.StatusInternalServerError,
-			Message: "Failed to create recipe",
-			Data:    nil,
-		})
-	}
-	
 	return c.JSON(http.StatusOK, responses.BaseResponse{
 		Code:    http.StatusOK,
 		Message: "Successfully created recipe",
