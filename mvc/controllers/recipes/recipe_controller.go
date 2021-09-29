@@ -15,8 +15,16 @@ func GetRecipeByID(c echo.Context) error {
 	var recipeById recipes.Recipe
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	result := configs.DB.First(&recipeById, id)
+	result := configs.DB.Raw("SELECT *,AVG(rv.rating) AS rating FROM reviews rv INNER JOIN recipes rp ON rv.recipe_id = rp.id AND rp.id = ?", id).Preload("RecipeCategory").Preload("User").First(&recipeById, id)
 	if result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to get recipe data",
+			Data:    nil,
+		})
+	}
+
+	if recipeById.ID == 0 {
 		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
 			Code:    http.StatusInternalServerError,
 			Message: "Failed to get recipe data",
