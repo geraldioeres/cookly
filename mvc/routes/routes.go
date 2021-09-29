@@ -2,10 +2,10 @@ package routes
 
 import (
 	"cookly/mvc/controllers/products"
-	"cookly/mvc/controllers/recipes"
-	"cookly/mvc/controllers/users"
 	recipecategory "cookly/mvc/controllers/recipe_category"
+	"cookly/mvc/controllers/recipes"
 	"cookly/mvc/controllers/reviews"
+	"cookly/mvc/controllers/users"
 
 	"github.com/labstack/echo/v4"
 )
@@ -34,7 +34,7 @@ func InitRoutes() *echo.Echo {
 
 	// Review
 	baseRoute.POST("/reviews", reviews.CreateReview)
-	// baseRoute.GET("/reviews/:id", reviews.ReviewsByRecipeID)
+	baseRoute.GET("/reviews/:id", reviews.GetReviewByRecipeID)
 
 	return e
 }

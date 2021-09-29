@@ -5,4 +5,5 @@ type CreateRecipe struct {
 	Description      string `json:"description"`
 	UserID           int    `json:"userId"`
 	RecipeCategoryID int    `json:"recipeCategoryId"`
+	//RecipeIngredient []recipeingredients.RecipeIngredient `json:"ingredients"`
 }
