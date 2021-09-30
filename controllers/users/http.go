@@ -20,13 +20,13 @@ func NewUserController(userUseCase users.UseCase) *UserController {
 	}
 }
 
-func (userController UserController) Login(c echo.Context) error {
-	userLogin := requests.UserLogin{}
+func (loginController *UserController) Login(c echo.Context) error {
+	var userLogin requests.UserLogin
 	c.Bind(&userLogin)
 
 	ctx := c.Request().Context()
 
-	user, error := userController.UserUseCase.Login(ctx, userLogin.Email, userLogin.Password)
+	user, error := loginController.UserUseCase.Login(ctx, userLogin.Email, userLogin.Password)
 
 	if error != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, error)

@@ -3,18 +3,16 @@ package users
 import (
 	"context"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Domain struct {
-	ID        int `gorm:"primaryKey"`
+	ID        int
 	Name      string
-	Email     string `gorm:"unique"`
+	Email     string
 	Password  string
+	Token     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt
 }
 
 type UseCase interface {

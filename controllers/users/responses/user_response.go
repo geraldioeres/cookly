@@ -16,9 +16,11 @@ type UserResponse struct {
 
 func FromDomain(domain users.Domain) UserResponse {
 	return UserResponse{
-		ID:       domain.ID,
-		Name:     domain.Name,
-		Email:    domain.Email,
-		Password: domain.Password,
+		ID:        domain.ID,
+		Name:      domain.Name,
+		Email:     domain.Email,
+		Password:  domain.Password,
+		CreatedAt: domain.CreatedAt,
+		UpdatedAt: domain.UpdatedAt,
 	}
 }

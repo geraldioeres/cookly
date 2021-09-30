@@ -31,5 +31,6 @@ func Migration() {
 		&recipecategory.RecipeCategory{},
 		&reviews.Review{},
 		&products.Product{},
+		&recipes.RecipeIngredient{},
 	)
 }

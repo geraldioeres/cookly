@@ -7,12 +7,14 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 
-	"cookly/app/routes"
+	_routes "cookly/app/routes"
 	_mysqlDriver "cookly/drivers/mysql"
 
 	_userUsecase "cookly/business/users"
 	_userController "cookly/controllers/users"
 	_userRepository "cookly/drivers/databases/users"
+
+	_middleware "cookly/app/middleware"
 )
 
 func init() {
@@ -37,14 +39,20 @@ func main() {
 	}
 	db := configDB.InitialDB()
 
+	configJWT := _middleware.ConfigJWT{
+		SecretJWT:      viper.GetString(`jwt.secret`),
+		ExiresDuration: viper.GetInt(`jwt.expired`),
+	}
+
 	e := echo.New()
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
 
 	userRepository := _userRepository.NewMysqlUserRepository(db)
-	userUseCase := _userUsecase.NewUserUseCase(userRepository, timeoutContext)
+	userUseCase := _userUsecase.NewUserUseCase(userRepository, timeoutContext, &configJWT)
 	userController := _userController.NewUserController(userUseCase)
 
-	routesInit := routes.ControllerList{
+	routesInit := _routes.ControllerList{
+		JWTMiddleware:  configJWT.Init(),
 		UserController: *userController,
 	}
 

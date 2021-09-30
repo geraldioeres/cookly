@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm/clause"
 )
 
 func CreateReview(c echo.Context) error {
@@ -39,7 +40,7 @@ func GetReviewByRecipeID(c echo.Context) error {
 	review := []reviews.Review{}
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	result := configs.DB.Where("recipe_id = ?", id).Find(&review)
+	result := configs.DB.Where("recipe_id = ?", id).Preload(clause.Associations).Preload("Recipe." + clause.Associations).Find(&review)
 	if result.Error != nil {
 		return c.JSON(http.StatusInternalServerError, responses.BaseResponse{
 			Code:    http.StatusInternalServerError,
