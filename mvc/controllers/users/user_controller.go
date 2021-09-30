@@ -1,9 +1,9 @@
 package users
 
 import (
-	"cookly/configs"
-	"cookly/models/responses"
-	"cookly/models/users"
+	"cookly/mvc/configs"
+	"cookly/mvc/models/responses"
+	"cookly/mvc/models/users"
 	"net/http"
 	"strconv"
 

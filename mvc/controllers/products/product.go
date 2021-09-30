@@ -1,9 +1,9 @@
 package products
 
 import (
-	"cookly/configs"
-	"cookly/models/products"
-	"cookly/models/responses"
+	"cookly/mvc/configs"
+	"cookly/mvc/models/products"
+	"cookly/mvc/models/responses"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

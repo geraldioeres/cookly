@@ -11,5 +11,5 @@ type RecipeCategory struct {
 	Name      string         `json:"name"`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
-	DeletedAt gorm.DeletedAt `json:"deletedAt"`
+	DeletedAt gorm.DeletedAt `json:"-"`
 }

@@ -1,9 +1,11 @@
 package configs
 
 import (
-	recipecategory "cookly/models/recipe_category"
-	"cookly/models/recipes"
-	"cookly/models/users"
+	"cookly/mvc/models/products"
+	recipecategory "cookly/mvc/models/recipe_category"
+	"cookly/mvc/models/recipes"
+	"cookly/mvc/models/reviews"
+	"cookly/mvc/models/users"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -23,5 +25,12 @@ func InitDB() {
 }
 
 func Migration() {
-	DB.AutoMigrate(&users.User{}, &recipes.Recipe{}, &recipecategory.RecipeCategory{})
+	DB.AutoMigrate(
+		&users.User{},
+		&recipes.Recipe{},
+		&recipecategory.RecipeCategory{},
+		&reviews.Review{},
+		&products.Product{},
+		&recipes.RecipeIngredient{},
+	)
 }

@@ -1,12 +1,17 @@
 package requests
 
-type UserLogin struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
+import "cookly/business/users"
+
+type User struct {
+	Name     string
+	Email    string
+	Password string
 }
 
-type UserRegister struct {
-	Name      string         `json:"name"`
-	Email     string         `gorm:"unique" json:"email"`
-	Password  string         `json:"password"`
+func (request *User) ToDomain() *users.Domain {
+	return &users.Domain{
+		Name:     request.Name,
+		Email:    request.Email,
+		Password: request.Password,
+	}
 }

@@ -3,24 +3,26 @@ package users
 import (
 	"context"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Domain struct {
-	ID        int `gorm:"primaryKey"`
+	ID        int
 	Name      string
-	Email     string `gorm:"unique"`
+	Email     string
 	Password  string
+	Token     string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt
 }
 
 type UseCase interface {
 	Login(ctx context.Context, email string, password string) (Domain, error)
+	Register(ctx context.Context, data *Domain) error
+	GetUserByID(ctx context.Context, id int) (Domain, error)
 }
 
 type Repository interface {
 	Login(ctx context.Context, email string, password string) (Domain, error)
+	Register(ctx context.Context, data *Domain) error
+	GetUserByID(ctx context.Context, id int) (Domain, error)
 }

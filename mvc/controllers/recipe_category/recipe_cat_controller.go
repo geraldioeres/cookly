@@ -1,10 +1,9 @@
 package recipecategory
 
 import (
-	"cookly/configs"
-
-	recipecategory "cookly/models/recipe_category"
-	"cookly/models/responses"
+	"cookly/mvc/models/recipe_category"
+	"cookly/mvc/configs"
+	"cookly/mvc/models/responses"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
