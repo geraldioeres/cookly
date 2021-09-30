@@ -14,6 +14,10 @@ import (
 	_userController "cookly/controllers/users"
 	_userRepository "cookly/drivers/databases/users"
 
+	_categoryUsecase "cookly/business/categories"
+	_categoryController "cookly/controllers/categories"
+	_categoryRepository "cookly/drivers/databases/categories"
+
 	_middleware "cookly/app/middleware"
 )
 
@@ -51,9 +55,14 @@ func main() {
 	userUseCase := _userUsecase.NewUserUseCase(userRepository, timeoutContext, &configJWT)
 	userController := _userController.NewUserController(userUseCase)
 
+	categoryRepository := _categoryRepository.NewMysqlCategoryRepository(db)
+	categoryUseCase := _categoryUsecase.NewCategoryUseCase(categoryRepository, timeoutContext)
+	categoryController := _categoryController.NewCategoryController(categoryUseCase)
+
 	routesInit := _routes.ControllerList{
 		JWTMiddleware:  configJWT.Init(),
 		UserController: *userController,
+		CategoryController: *categoryController,
 	}
 
 	routesInit.RouteRegister(e)

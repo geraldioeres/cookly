@@ -5,6 +5,9 @@ import (
 	"log"
 
 	"cookly/drivers/databases/users"
+	"cookly/drivers/databases/categories"
+
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -33,6 +36,7 @@ func (config *ConfigDB) InitialDB() *gorm.DB {
 
 	db.AutoMigrate(
 		&users.Users{},
+		&categories.Category{},
 	)
 
 	return db
