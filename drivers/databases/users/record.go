@@ -9,19 +9,20 @@ type Users struct {
 	ID        int       `gorm:"primaryKey" json:"id"`
 	Name      string    `json:"name"`
 	Email     string    `gorm:"unique" json:"email"`
-	Password  string    `json:"password"`
+	Password  string    `json:"password,omitempty"`
+	Token     string    `json:"-"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func (user *Users) ToDomain() users.Domain {
+func (record *Users) ToDomain() users.Domain {
 	return users.Domain{
-		ID:        user.ID,
-		Name:      user.Name,
-		Email:     user.Email,
-		Password:  user.Password,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
+		ID:        record.ID,
+		Name:      record.Name,
+		Email:     record.Email,
+		Password:  record.Password,
+		CreatedAt: record.CreatedAt,
+		UpdatedAt: record.UpdatedAt,
 	}
 }
 

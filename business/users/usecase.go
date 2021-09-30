@@ -28,3 +28,21 @@ func (uc *UserUseCase) Login(ctx context.Context, email string, password string)
 	result.Token = uc.jwtAuth.GenerateToken(result.ID)
 	return result, nil
 }
+
+func (uc *UserUseCase) Register(ctx context.Context, userDomain *Domain) error {
+	err := uc.userRepo.Register(ctx, userDomain)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (uc *UserUseCase) GetUserByID(ctx context.Context, id int) (Domain, error) {
+	result, err := uc.userRepo.GetUserByID(ctx, id)
+	if err != nil {
+		return Domain{},err
+	}
+
+	return result, nil
+}

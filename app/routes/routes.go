@@ -14,7 +14,9 @@ type ControllerList struct {
 
 func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	baseRoute := e.Group("/api/v1")
-	
+
 	userRoute := baseRoute.Group("/users")
 	userRoute.POST("/login", cl.UserController.Login)
+	userRoute.POST("/register", cl.UserController.Register)
+	userRoute.GET("/:id", cl.UserController.GetUserByID)
 }
