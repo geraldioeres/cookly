@@ -27,3 +27,19 @@ func (repository *mysqlCategoryRepository) Create(ctx context.Context, categoryD
 
 	return nil
 }
+
+func (repository *mysqlCategoryRepository) GetAll(ctx context.Context) ([]categories.Domain, error) {
+	var getAll []Category
+
+	result := repository.Conn.Find(&getAll)
+	if result.Error != nil {
+		return []categories.Domain{}, result.Error
+	}
+
+	var categories []categories.Domain
+	for _, get := range getAll {
+		categories = append(categories, get.ToDomain())
+	}
+
+	return categories, nil
+}

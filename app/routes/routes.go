@@ -25,4 +25,5 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 
 	// Category
 	baseRoute.POST("/categories", cl.CategoryController.Create)
+	baseRoute.GET("/categories", cl.CategoryController.GetAll)
 }

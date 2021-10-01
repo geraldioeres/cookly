@@ -4,6 +4,7 @@ import (
 	"cookly/business/categories"
 	"cookly/controllers"
 	"cookly/controllers/categories/requests"
+	"cookly/controllers/categories/responses"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -31,4 +32,20 @@ func (categoryController *CategoryController) Create(c echo.Context) error {
 	}
 
 	return controllers.NewSuccessResponse(c, "Successfully create category")
+}
+
+func (categoryController *CategoryController) GetAll(c echo.Context) error {
+	categories := []responses.CategoryResponse{}
+	ctx := c.Request().Context()
+
+	result, err := categoryController.CatUseCase.GetAll(ctx)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	for _, res := range result {
+		categories = append(categories, responses.FromDomain(res))
+	}
+
+	return controllers.NewSuccessResponse(c, categories)
 }

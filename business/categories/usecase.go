@@ -25,3 +25,12 @@ func (cr *CategoryUseCase) Create(ctx context.Context, categoryDomain *Domain) e
 
 	return nil
 }
+
+func (cr *CategoryUseCase) GetAll(ctx context.Context) ([]Domain, error) {
+	result, err := cr.catRepo.GetAll(ctx)
+	if err != nil {
+		return []Domain{}, err
+	}
+
+	return result, nil
+}
