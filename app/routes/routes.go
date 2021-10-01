@@ -24,7 +24,7 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	userRoute.GET("/:id", cl.UserController.GetUserByID)
 
 	// Category
-	baseRoute.POST("/categories", cl.CategoryController.Create)
+	baseRoute.POST("/categories", cl.CategoryController.Create, middleware.JWTWithConfig(cl.JWTMiddleware))
 	baseRoute.GET("/categories", cl.CategoryController.GetAll)
-	baseRoute.PUT("/categories/:id", cl.CategoryController.Update)
+	baseRoute.PUT("/categories/:id", cl.CategoryController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
 }
