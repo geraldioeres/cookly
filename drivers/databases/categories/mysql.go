@@ -43,3 +43,14 @@ func (repository *mysqlCategoryRepository) GetAll(ctx context.Context) ([]catego
 
 	return categories, nil
 }
+
+func (repository *mysqlCategoryRepository) Update(ctx context.Context, categoryDomain *categories.Domain, id int) error {
+	update := FromDomain(*categoryDomain)
+
+	result := repository.Conn.Where("id = ?", id).Updates(&update)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}

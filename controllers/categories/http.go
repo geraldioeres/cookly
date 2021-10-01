@@ -6,6 +6,7 @@ import (
 	"cookly/controllers/categories/requests"
 	"cookly/controllers/categories/responses"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -48,4 +49,18 @@ func (categoryController *CategoryController) GetAll(c echo.Context) error {
 	}
 
 	return controllers.NewSuccessResponse(c, categories)
+}
+
+func (categoryController *CategoryController) Update(c echo.Context) error {
+	update := requests.Category{}
+	id, _ := strconv.Atoi(c.Param("id"))
+	ctx := c.Request().Context()
+
+	c.Bind(&update)
+	err := categoryController.CatUseCase.Update(ctx, update.ToDomain(), id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	return controllers.NewSuccessResponse(c, "Successfully updated category")
 }

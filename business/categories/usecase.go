@@ -34,3 +34,12 @@ func (cr *CategoryUseCase) GetAll(ctx context.Context) ([]Domain, error) {
 
 	return result, nil
 }
+
+func (cr *CategoryUseCase) Update(ctx context.Context, categoryDomain *Domain, id int) error {
+	err := cr.catRepo.Update(ctx, categoryDomain, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

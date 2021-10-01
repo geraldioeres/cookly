@@ -18,9 +18,11 @@ type Domain struct {
 type UseCase interface {
 	Create(ctx context.Context, data *Domain) error
 	GetAll(ctx context.Context) ([]Domain, error)
+	Update(ctx context.Context, data *Domain , id int) error
 }
 
 type Repository interface {
 	Create(ctx context.Context, data *Domain) error
 	GetAll(ctx context.Context) ([]Domain, error)
+	Update(ctx context.Context, data *Domain , id int) error
 }
