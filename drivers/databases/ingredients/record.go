@@ -7,13 +7,13 @@ import (
 )
 
 type Ingredient struct {
-	ID        int `gorm:"primaryKey"`
-	RecipeID  int 
-	ProductID int 
-	Product   products.Product `gorm:"foreignKey:ProductID;references:ID"`
-	Amount    string    
-	CreatedAt time.Time 
-	UpdatedAt time.Time 
+	ID        int `gorm:"primaryKey" json:"id"`
+	RecipeID  int
+	ProductID int
+	Product   products.Product
+	Amount    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (record *Ingredient) ToDomain() ingredients.IngredientDomain {
@@ -21,6 +21,7 @@ func (record *Ingredient) ToDomain() ingredients.IngredientDomain {
 		ID:        record.ID,
 		RecipeID:  record.RecipeID,
 		ProductID: record.ProductID,
+		Product:   record.Product.ToDomain(),
 		Amount:    record.Amount,
 		CreatedAt: record.CreatedAt,
 		UpdatedAt: record.UpdatedAt,

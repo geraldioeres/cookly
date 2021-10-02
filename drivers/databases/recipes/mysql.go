@@ -26,7 +26,7 @@ func (repository *mysqlRecipeRepository) Create(ctx context.Context, recipeDomai
 		return recipes.Domain{}, result.Error
 	}
 
-	err := repository.Conn.Preload(clause.Associations).First(&create, create.ID).Error
+	err := repository.Conn.Preload(clause.Associations).Preload("RecipeIngredient."+clause.Associations).First(&create, create.ID).Error
 	if err != nil {
 		return recipes.Domain{}, result.Error
 	}

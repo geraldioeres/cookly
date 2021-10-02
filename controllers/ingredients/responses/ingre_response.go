@@ -2,17 +2,21 @@ package responses
 
 import (
 	"cookly/business/ingredients"
-	"cookly/business/products"
+	"cookly/controllers/products/responses"
 )
 
 type IngredientResponse struct {
-	Product products.Domain `json:"product"`
-	Amount  string          `json:"amount"`
+	ID        int    `json:"id"`
+	ProductID int    `json:"productId"`
+	Product   responses.ProductResponse `json:"product"`
+	Amount    string `json:"amount"`
 }
 
 func FromIngredientDomain(domain ingredients.IngredientDomain) IngredientResponse {
 	return IngredientResponse{
-		Product: domain.Product,
-		Amount:  domain.Amount,
+		ID:        domain.ID,
+		ProductID: domain.ProductID,
+		Product: responses.ProductResponse(domain.Product),
+		Amount:    domain.Amount,
 	}
 }

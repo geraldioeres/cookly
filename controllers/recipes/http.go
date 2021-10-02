@@ -35,7 +35,7 @@ func (recipeController *RecipeController) Create(c echo.Context) error {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
-	return controllers.NewSuccessResponse(c, result)
+	return controllers.NewSuccessResponse(c, responses.FromDomain(result))
 }
 
 func (recipeController *RecipeController) RecipeByID(c echo.Context) error {
