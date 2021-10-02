@@ -17,11 +17,20 @@ func NewRecipeUseCase(rr Repository, timeout time.Duration) UseCase {
 	}
 }
 
-func (ruc *RecipeUseCase) Create(ctx context.Context, recipeDomain *Domain) error {
-	err := ruc.recipeRepo.Create(ctx, recipeDomain)
+func (ruc *RecipeUseCase) Create(ctx context.Context, recipeDomain *Domain) (Domain, error) {
+	result, err := ruc.recipeRepo.Create(ctx, recipeDomain)
 	if err != nil {
-		return err
+		return Domain{},err
 	}
 
-	return nil
+	return result, nil
+}
+
+func (ruc *RecipeUseCase) RecipeByID(ctx context.Context, id int) (Domain, error) {
+	result, err := ruc.recipeRepo.RecipeByID(ctx, id)
+	if err != nil {
+		return Domain{}, err
+	}
+
+	return result, nil
 }

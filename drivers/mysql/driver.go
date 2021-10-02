@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"log"
 
-	"cookly/drivers/databases/products"
 	"cookly/drivers/databases/categories"
-	"cookly/drivers/databases/users"
+	"cookly/drivers/databases/ingredients"
+	"cookly/drivers/databases/products"
 	"cookly/drivers/databases/recipes"
+	"cookly/drivers/databases/steps"
+	"cookly/drivers/databases/users"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -40,6 +42,8 @@ func (config *ConfigDB) InitialDB() *gorm.DB {
 		&categories.Category{},
 		&products.Product{},
 		&recipes.Recipe{},
+		&steps.Step{},
+		&ingredients.Ingredient{},
 	)
 
 	return db

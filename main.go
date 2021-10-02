@@ -71,6 +71,7 @@ func main() {
 	productUseCase := _productUsecase.NewProductUseCase(productRepository, timeoutContext)
 	productController := _productController.NewProductController(productUseCase)
 
+
 	recipeRepository := _recipeRepository.NewMysqlRecipeRepository(db)
 	recipeUseCase := _recipeUsecase.NewRecipeUseCase(recipeRepository, timeoutContext)
 	recipeController := _recipeController.NewRecipeController(recipeUseCase)
