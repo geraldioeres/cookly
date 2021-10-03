@@ -48,7 +48,7 @@ func (recipeController *RecipeController) RecipeByID(c echo.Context) error {
 
 	recipe, err := recipeController.RecipeUseCase.RecipeByID(ctx, id)
 	if err != nil {
-		return controllers.NewErrorResponse(c, http.StatusBadGateway, err)
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
 
 	return controllers.NewSuccessResponse(c, responses.FromDomain(recipe))

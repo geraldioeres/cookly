@@ -8,6 +8,7 @@ import (
 	"cookly/drivers/databases/ingredients"
 	"cookly/drivers/databases/products"
 	"cookly/drivers/databases/recipes"
+	"cookly/drivers/databases/reviews"
 	"cookly/drivers/databases/steps"
 	"cookly/drivers/databases/users"
 
@@ -44,6 +45,7 @@ func (config *ConfigDB) InitialDB() *gorm.DB {
 		&recipes.Recipe{},
 		&steps.Step{},
 		&ingredients.Ingredient{},
+		&reviews.Review{},
 	)
 
 	return db
