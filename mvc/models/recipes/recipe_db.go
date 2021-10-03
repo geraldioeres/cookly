@@ -14,7 +14,7 @@ type Recipe struct {
 	ID               int                           `gorm:"primaryKey" json:"id"`
 	Title            string                        `json:"title"`
 	Description      string                        `json:"description"`
-	Rating           float32                       `json:"rating"`
+	Rating           float64                       `json:"rating"`
 	UserID           int                           `json:"userId"`
 	User             users.User                    `json:"user"`
 	RecipeCategoryID int                           `json:"recipeCategoryId"`

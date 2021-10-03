@@ -41,11 +41,50 @@ func (recipeController *RecipeController) Create(c echo.Context) error {
 func (recipeController *RecipeController) RecipeByID(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
 	recipe, err := recipeController.RecipeUseCase.RecipeByID(ctx, id)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadGateway, err)
 	}
 
 	return controllers.NewSuccessResponse(c, responses.FromDomain(recipe))
+}
+
+func (recipeController *RecipeController) GetAll(c echo.Context) error {
+	recipes := []responses.RecipeResponse{}
+	ctx := c.Request().Context()
+
+	result, err := recipeController.RecipeUseCase.GetAll(ctx)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+
+	for _, recipe := range result {
+		recipes = append(recipes, responses.FromDomain(recipe))
+	}
+
+	return controllers.NewSuccessResponse(c, recipes)
+}
+
+func (recipeController *RecipeController) Update(c echo.Context) error {
+	recipeReq := requests.Recipe{}	
+	ctx := c.Request().Context()
+	Id, _ := strconv.Atoi(c.Param("id"))
+
+	if err := c.Bind(&recipeReq); err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	recipeDomain := recipeReq.ToDomain()
+	recipeDomain.ID = Id
+
+	_, err := recipeController.RecipeUseCase.Update(ctx, recipeDomain)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccessResponse(c, "Succefully updated recipe")
 }

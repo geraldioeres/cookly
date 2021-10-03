@@ -11,7 +11,7 @@ type RecipeResponse struct {
 	ID               int                           `json:"id"`
 	Title            string                        `json:"title"`
 	Description      string                        `json:"description"`
-	Rating           float32                       `json:"rating"`
+	Rating           float64                       `json:"rating"`
 	UserID           int                           `json:"userId"`
 	PublishedBy      string                        `json:"publishedBy"`
 	RecipeCategoryID int                           `json:"recipeCategoryId"`

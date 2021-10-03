@@ -39,5 +39,8 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 
 	// Recipes
 	baseRoute.POST("/recipes", cl.RecipeController.Create, middleware.JWTWithConfig(cl.JWTMiddleware))
+	baseRoute.GET("/recipes", cl.RecipeController.GetAll)
 	baseRoute.GET("/recipes/:id", cl.RecipeController.RecipeByID)
+	baseRoute.PUT("/recipes/:id", cl.RecipeController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
+
 }

@@ -15,7 +15,7 @@ type Domain struct {
 	ID               int
 	Title            string
 	Description      string
-	Rating           float32
+	Rating           float64
 	UserID           int
 	User             users.Domain
 	RecipeCategoryID int
@@ -30,9 +30,13 @@ type Domain struct {
 type UseCase interface {
 	Create(ctx context.Context, data *Domain) (Domain, error)
 	RecipeByID(ctx context.Context, id int) (Domain, error)
+	GetAll(ctx context.Context) ([]Domain, error)
+	Update(ctx context.Context, data *Domain) (*Domain, error)
 }
 
 type Repository interface {
 	Create(ctx context.Context, data *Domain) (Domain, error)
 	RecipeByID(ctx context.Context, id int) (Domain, error)
+	GetAll(ctx context.Context) ([]Domain, error)
+	Update(ctx context.Context, data *Domain) (Domain, error)
 }
