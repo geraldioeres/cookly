@@ -3,6 +3,7 @@ package routes
 import (
 	"cookly/controllers/categories"
 	"cookly/controllers/products"
+	"cookly/controllers/recipes"
 	"cookly/controllers/users"
 
 	"github.com/labstack/echo/v4"
@@ -14,6 +15,7 @@ type ControllerList struct {
 	UserController     users.UserController
 	CategoryController categories.CategoryController
 	ProductController  products.ProductController
+	RecipeController   recipes.RecipeController
 }
 
 func (cl *ControllerList) RouteRegister(e *echo.Echo) {
@@ -34,4 +36,11 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	baseRoute.POST("/products", cl.ProductController.Create, middleware.JWTWithConfig(cl.JWTMiddleware))
 	baseRoute.GET("/products", cl.ProductController.GetAll)
 	baseRoute.PUT("/products/:id", cl.ProductController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
+
+	// Recipes
+	baseRoute.POST("/recipes", cl.RecipeController.Create, middleware.JWTWithConfig(cl.JWTMiddleware))
+	baseRoute.GET("/recipes", cl.RecipeController.GetAll)
+	baseRoute.GET("/recipes/:id", cl.RecipeController.RecipeByID)
+	baseRoute.PUT("/recipes/:id", cl.RecipeController.Update, middleware.JWTWithConfig(cl.JWTMiddleware))
+
 }
