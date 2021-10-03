@@ -21,10 +21,13 @@ type Domain struct {
 
 type UseCase interface {
 	Create(ctx context.Context, data *Domain) (Domain, error)
-	GetReviewsByRecipeID(ctx context.Context, recipeId int) ([]Domain, error)
+	GetReviewsByRecipeID(ctx context.Context, recipeId int) ([]Domain ,error)
+
 }
 
 type Repository interface {
 	Create(ctx context.Context, data *Domain) (Domain, error)
 	GetReviewsByRecipeID(ctx context.Context, recipeId int) ([]Domain, error)
+	CountReviews(recipeId int) (count int, err error)
+	UpdateRecipeRating(recipeId int, newRating float64) error
 }

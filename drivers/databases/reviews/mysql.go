@@ -3,6 +3,7 @@ package reviews
 import (
 	"context"
 	"cookly/business/reviews"
+	"cookly/drivers/databases/recipes"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -48,4 +49,30 @@ func (repository *mysqlReviewRepository) GetReviewsByRecipeID(ctx context.Contex
 	}
 
 	return reviews, nil
+}
+
+func (repository *mysqlReviewRepository) UpdateRecipeRating(recipeId int, newRating float64) error {
+	recipes := recipes.Recipe{}
+	err := repository.Conn.Model(&recipes).Where("id = ?", recipeId).Update("rating", newRating).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (repository *mysqlReviewRepository) CountReviews(recipeId int) (count int, err error) {
+	countReviews := []Review{}
+
+	result := repository.Conn.Where("recipe_id = ?", recipeId).Find(&countReviews)
+	if result.Error != nil {
+		return count, err
+	}
+
+	reviews := []reviews.Domain{}
+	for _, review := range countReviews {
+		reviews = append(reviews, review.ToDomain())
+	}
+
+	return len(reviews), nil
 }

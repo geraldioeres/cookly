@@ -80,7 +80,7 @@ func main() {
 	recipeController := _recipeController.NewRecipeController(recipeUseCase)
 
 	reviewRepository := _reviewRepository.NewMysqlReviewRepository(db)
-	reviewUseCase := _reviewUsecase.NewReviewUseCase(reviewRepository, timeoutContext)
+	reviewUseCase := _reviewUsecase.NewReviewUseCase(reviewRepository, recipeRepository ,timeoutContext)
 	reviewController := _reviewController.NewReviewController(reviewUseCase)
 
 	routesInit := _routes.ControllerList{
