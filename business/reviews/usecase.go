@@ -3,7 +3,6 @@ package reviews
 import (
 	"context"
 	"cookly/business/recipes"
-	"fmt"
 	"time"
 )
 
@@ -27,7 +26,6 @@ func (rvuc *ReviewUseCase) Create(ctx context.Context, reviewDomain *Domain) (Do
 	if err != nil {
 		return Domain{}, nil
 	}
-	fmt.Println("number is ", numberOfReviews)
 
 	// Get current rating value of the recipe based on recipe id
 	recipes, err := rvuc.recipeRepo.RecipeByID(ctx, reviewDomain.RecipeID)
@@ -38,8 +36,6 @@ func (rvuc *ReviewUseCase) Create(ctx context.Context, reviewDomain *Domain) (Do
 	// Rating calculation
 	sum := (float64(numberOfReviews) * recipes.Rating) + reviewDomain.Rating
 	newRating := sum / (float64(numberOfReviews) + 1)
-	fmt.Println("sum is", sum)
-	fmt.Println("new rating is", newRating)
 
 	err = rvuc.reviewRepo.UpdateRecipeRating(reviewDomain.RecipeID, newRating)
 	if err != nil {
