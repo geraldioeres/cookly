@@ -3,6 +3,7 @@ package users
 import (
 	"context"
 	"cookly/app/middleware"
+	"cookly/business"
 	"cookly/helpers/encrypt"
 	"time"
 )
@@ -28,7 +29,7 @@ func (uc *UserUseCase) Login(ctx context.Context, email string, password string)
 	}
 
 	if !encrypt.HashValidation(password, checkUser.Password) {
-		return Domain{}, err
+		return Domain{}, business.ErrorInvalidPassword
 	}
 
 	checkUser.Token = uc.jwtAuth.GenerateToken(checkUser.ID)
@@ -36,6 +37,10 @@ func (uc *UserUseCase) Login(ctx context.Context, email string, password string)
 }
 
 func (uc *UserUseCase) Register(ctx context.Context, userDomain *Domain) error {
+	if userDomain.Password == "" {
+		return business.ErrorInvalidPassword
+	}
+	
 	var err error
 	userDomain.Password, err = encrypt.Hash(userDomain.Password)
 	if err != nil {
