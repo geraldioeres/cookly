@@ -2,6 +2,7 @@ package reviews
 
 import (
 	"context"
+	"cookly/business"
 	"cookly/business/recipes"
 	"time"
 )
@@ -24,13 +25,13 @@ func (rvuc *ReviewUseCase) Create(ctx context.Context, reviewDomain *Domain) (Do
 	// Get the number of reviews based on the recipe id
 	numberOfReviews, err := rvuc.reviewRepo.CountReviews(reviewDomain.RecipeID)
 	if err != nil {
-		return Domain{}, nil
+		return Domain{}, err
 	}
 
 	// Get current rating value of the recipe based on recipe id
 	recipes, err := rvuc.recipeRepo.RecipeByID(ctx, reviewDomain.RecipeID)
 	if err != nil {
-		return Domain{}, nil
+		return Domain{}, err
 	}
 
 	// Rating calculation
@@ -44,7 +45,7 @@ func (rvuc *ReviewUseCase) Create(ctx context.Context, reviewDomain *Domain) (Do
 
 	result, err := rvuc.reviewRepo.Create(ctx, reviewDomain)
 	if err != nil {
-		return Domain{}, nil
+		return Domain{}, err
 	}
 
 	return result, nil
@@ -53,7 +54,7 @@ func (rvuc *ReviewUseCase) Create(ctx context.Context, reviewDomain *Domain) (Do
 func (rvuc *ReviewUseCase) GetReviewsByRecipeID(ctx context.Context, recipeId int) ([]Domain, error) {
 	result, err := rvuc.reviewRepo.GetReviewsByRecipeID(ctx, recipeId)
 	if err != nil {
-		return []Domain{}, err
+		return []Domain{}, business.ErrorDataNotFound
 	}
 
 	return result, nil

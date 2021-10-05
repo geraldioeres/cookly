@@ -2,6 +2,7 @@ package products_test
 
 import (
 	"context"
+	"cookly/business"
 	"cookly/business/products"
 	_mockProductsRepository "cookly/business/products/mocks"
 	"os"
@@ -35,6 +36,15 @@ func TestCreate(t *testing.T) {
 
 		assert.Nil(t, err)
 	})
+
+	t.Run("Test 2 | Error Create Product", func(t *testing.T) {
+		errRepository := business.ErrorCreateData
+		productRepository.On("Create", mock.Anything, mock.Anything).Return(errRepository).Once()
+
+		err := productUseCase.Create(context.Background(), &products.Domain{})
+
+		assert.Error(t, err)
+	})
 }
 
 func TestUpdate(t *testing.T) {
@@ -48,5 +58,26 @@ func TestUpdate(t *testing.T) {
 		err := productUseCase.Update(context.Background(), &domain, 1)
 
 		assert.Nil(t, err)
+	})
+}
+
+func TestGetAll(t *testing.T) {
+	t.Run("Test 1 | Valid Test", func(t *testing.T) {
+		productRepository.On("GetAll", mock.Anything).Return([]products.Domain{{ID: 1},{ID: 2},{ID: 3}}, nil).Once()
+
+		result, err := productUseCase.GetAll(context.Background())
+
+		assert.Nil(t, err)
+		assert.NotEmpty(t, result)
+	})
+
+	t.Run("Test 2 | Record Not Found", func(t *testing.T) {
+		errRepository := business.ErrorDataNotFound
+		productRepository.On("GetAll", mock.Anything).Return([]products.Domain{}, errRepository).Once()
+
+		result, err := productUseCase.GetAll(context.Background())
+
+		assert.Equal(t, errRepository, err)
+		assert.Empty(t, result)
 	})
 }

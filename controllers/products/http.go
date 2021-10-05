@@ -56,8 +56,12 @@ func (productController *ProductController) Update(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	ctx := c.Request().Context()
 
-	c.Bind(&update)
-	err := productController.ProductUseCase.Update(ctx, update.ToDomain(), id)
+	err := c.Bind(&update)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	err = productController.ProductUseCase.Update(ctx, update.ToDomain(), id)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}

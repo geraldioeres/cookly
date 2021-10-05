@@ -2,6 +2,7 @@ package recipes_test
 
 import (
 	"context"
+	"cookly/business"
 	"cookly/business/ingredients"
 	"cookly/business/recipes"
 	_mockRecipeRepository "cookly/business/recipes/mocks"
@@ -106,7 +107,7 @@ func TestRecipeByID(t *testing.T) {
 
 func TestGetAll(t *testing.T) {
 	t.Run("Test 1 | Valid Test", func(t *testing.T) {
-		recipeRepository.On("GetAll", mock.Anything).Return([]recipes.Domain{{ID: 1},{ID: 2},{ID: 3}}, nil).Once()
+		recipeRepository.On("GetAll", mock.Anything).Return([]recipes.Domain{{ID: 1}, {ID: 2}, {ID: 3}}, nil).Once()
 
 		result, err := recipeUseCase.GetAll(context.Background())
 
@@ -114,13 +115,43 @@ func TestGetAll(t *testing.T) {
 		assert.NotEmpty(t, result)
 	})
 
-	t.Run("Test 2 | Error Test", func(t *testing.T) {
-		errRepository := errors.New("Data Not Found")
+	t.Run("Test 2 | Record Not Found", func(t *testing.T) {
+		errRepository := business.ErrorDataNotFound
 		recipeRepository.On("GetAll", mock.Anything).Return([]recipes.Domain{}, errRepository).Once()
 
 		result, err := recipeUseCase.GetAll(context.Background())
 
 		assert.Equal(t, errRepository, err)
 		assert.Empty(t, result)
+	})
+}
+
+func TestUpdate(t *testing.T) {
+	t.Run("Test 1 | Valid Test", func(t *testing.T) {
+		recipeRepository.On("RecipeByID", mock.Anything, mock.AnythingOfType("int")).Return(recipes.Domain{}, nil).Once()
+		var domain = recipes.Domain{
+			ID: 1,
+			Title: "Special Boiled Egg",
+			Description: "easy daily recipe",
+			UserID: 1,
+			RecipeCategoryID: 1,
+			RecipeIngredient: []ingredients.IngredientDomain{
+				{
+					ProductID: 1,
+					Amount: "1",
+				},
+			},
+			Step: []steps.StepDomain{
+				{
+					Order: 1,
+					Instruction: "Boil the water for 3 minutes",
+				},
+			},
+		}
+		
+		recipeRepository.On("Update", mock.Anything, mock.Anything).Return(domain, nil).Once()
+
+		_, err := recipeUseCase.Update(context.Background(), &domain)
+		assert.NoError(t, err)
 	})
 }
