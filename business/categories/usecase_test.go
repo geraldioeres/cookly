@@ -26,7 +26,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestCreate(t *testing.T) {
-	t.Run("Test Case 1 | Valid test", func(t *testing.T) {
+	t.Run("Test Case 1 | Valid Test", func(t *testing.T) {
 		domain := categories.Domain{
 			Name: "Side-dish",
 		}
