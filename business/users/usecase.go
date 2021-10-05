@@ -3,6 +3,7 @@ package users
 import (
 	"context"
 	"cookly/app/middleware"
+	"cookly/helpers/encrypt"
 	"time"
 )
 
@@ -21,16 +22,27 @@ func NewUserUseCase(repo Repository, timeout time.Duration, jwtauth *middleware.
 }
 
 func (uc *UserUseCase) Login(ctx context.Context, email string, password string) (Domain, error) {
-	result, err := uc.userRepo.Login(ctx, email, password)
+	checkUser, err := uc.userRepo.GetUserByEmail(ctx, email)
 	if err != nil {
 		return Domain{}, err
 	}
-	result.Token = uc.jwtAuth.GenerateToken(result.ID)
-	return result, nil
+
+	if !encrypt.HashValidation(password, checkUser.Password) {
+		return Domain{}, err
+	}
+
+	checkUser.Token = uc.jwtAuth.GenerateToken(checkUser.ID)
+	return checkUser, nil
 }
 
 func (uc *UserUseCase) Register(ctx context.Context, userDomain *Domain) error {
-	err := uc.userRepo.Register(ctx, userDomain)
+	var err error
+	userDomain.Password, err = encrypt.Hash(userDomain.Password)
+	if err != nil {
+		return err
+	}
+
+	err = uc.userRepo.Register(ctx, userDomain)
 	if err != nil {
 		return err
 	}
@@ -41,7 +53,7 @@ func (uc *UserUseCase) Register(ctx context.Context, userDomain *Domain) error {
 func (uc *UserUseCase) GetUserByID(ctx context.Context, id int) (Domain, error) {
 	result, err := uc.userRepo.GetUserByID(ctx, id)
 	if err != nil {
-		return Domain{},err
+		return Domain{}, err
 	}
 
 	return result, nil
