@@ -2,6 +2,7 @@ package categories
 
 import (
 	"context"
+	"errors"
 	"time"
 )
 
@@ -18,6 +19,10 @@ func NewCategoryUseCase(cr Repository, timeout time.Duration) UseCase {
 }
 
 func (cr *CategoryUseCase) Create(ctx context.Context, categoryDomain *Domain) error {
+	if categoryDomain.Name == "" {
+		return errors.New("category name is empty")
+	}
+
 	err := cr.catRepo.Create(ctx, categoryDomain)
 	if err != nil {
 		return err
