@@ -49,3 +49,14 @@ func (repository *MysqlUserRepository) GetUserByID(ctx context.Context, id int) 
 
 	return getUserByID.ToDomain(), nil
 }
+
+func (repository *MysqlUserRepository) GetUserByEmail(ctx context.Context, email string) (users.Domain, error) {
+	getUserByEmail := Users{}
+
+	result := repository.Conn.Where("email = ?", email).First(&getUserByEmail)
+	if result.Error != nil {
+		return users.Domain{}, result.Error
+	}
+
+	return getUserByEmail.ToDomain(), nil
+}
