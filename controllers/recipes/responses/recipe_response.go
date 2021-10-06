@@ -2,8 +2,10 @@ package responses
 
 import (
 	"cookly/business/recipes"
+	resCat "cookly/controllers/categories/responses"
 	resIngre "cookly/controllers/ingredients/responses"
 	resStep "cookly/controllers/steps/responses"
+	resUser "cookly/controllers/users/responses"
 	"time"
 )
 
@@ -13,9 +15,9 @@ type RecipeResponse struct {
 	Description      string                        `json:"description"`
 	Rating           float64                       `json:"rating"`
 	UserID           int                           `json:"userId"`
-	PublishedBy      string                        `json:"publishedBy"`
+	User             resUser.UserResponse          `json:"user"`
 	RecipeCategoryID int                           `json:"recipeCategoryId"`
-	Category         string                        `json:"category"`
+	Category         resCat.CategoryResponse       `json:"category"`
 	CreatedAt        time.Time                     `json:"createdAt"`
 	UpdatedAt        time.Time                     `json:"updatedAt"`
 	RecipeIngredient []resIngre.IngredientResponse `json:"ingredients"`
@@ -39,9 +41,9 @@ func FromDomain(domain recipes.Domain) RecipeResponse {
 		Description:      domain.Description,
 		Rating:           domain.Rating,
 		UserID:           domain.UserID,
-		PublishedBy:      domain.User.Name,
+		User:             resUser.FromDomain(domain.User),
 		RecipeCategoryID: domain.RecipeCategoryID,
-		Category:         domain.RecipeCategory.Name,
+		Category:         resCat.FromDomain(domain.RecipeCategory),
 		CreatedAt:        domain.CreatedAt,
 		UpdatedAt:        domain.UpdatedAt,
 		RecipeIngredient: ingredients,
