@@ -31,27 +31,27 @@ func TestMain(m *testing.M) {
 func TestCreate(t *testing.T) {
 	t.Run("Test 1 | Valid Test", func(t *testing.T) {
 		domain := recipes.Domain{
-			Title: "White Bean Chicken Soup",
-			Description: "Modern take on classic chicken soup",
-			UserID: 1,
+			Title:            "White Bean Chicken Soup",
+			Description:      "Modern take on classic chicken soup",
+			UserID:           1,
 			RecipeCategoryID: 1,
 			RecipeIngredient: []ingredients.IngredientDomain{
 				{
 					ProductID: 1,
-					Amount: "400 gr",
+					Amount:    "400 gr",
 				},
 				{
 					ProductID: 2,
-					Amount: "2",
+					Amount:    "2",
 				},
 			},
 			Step: []steps.StepDomain{
 				{
-					Order: 1,
+					Order:       1,
 					Instruction: "Boil the water for 3 minutes",
 				},
 				{
-					Order: 2,
+					Order:       2,
 					Instruction: "Put the chicken into the boiled water",
 				},
 			},
@@ -68,20 +68,20 @@ func TestCreate(t *testing.T) {
 func TestRecipeByID(t *testing.T) {
 	t.Run("Test 1 | Valid Test", func(t *testing.T) {
 		domain := recipes.Domain{
-			ID: 1,
-			Title: "Boiled Egg",
-			Description: "Very easy daily recipe",
-			UserID: 1,
+			ID:               1,
+			Title:            "Boiled Egg",
+			Description:      "Very easy daily recipe",
+			UserID:           1,
 			RecipeCategoryID: 1,
 			RecipeIngredient: []ingredients.IngredientDomain{
 				{
 					ProductID: 1,
-					Amount: "1",
+					Amount:    "1",
 				},
 			},
 			Step: []steps.StepDomain{
 				{
-					Order: 1,
+					Order:       1,
 					Instruction: "Boil the water for 3 minutes",
 				},
 			},
@@ -90,7 +90,7 @@ func TestRecipeByID(t *testing.T) {
 
 		result, err := recipeUseCase.RecipeByID(context.Background(), 1)
 
-		assert.Nil(t ,err)
+		assert.Nil(t, err)
 		assert.Equal(t, domain.ID, result.ID)
 	})
 
@@ -130,28 +130,59 @@ func TestUpdate(t *testing.T) {
 	t.Run("Test 1 | Valid Test", func(t *testing.T) {
 		recipeRepository.On("RecipeByID", mock.Anything, mock.AnythingOfType("int")).Return(recipes.Domain{}, nil).Once()
 		var domain = recipes.Domain{
-			ID: 1,
-			Title: "Special Boiled Egg",
-			Description: "easy daily recipe",
-			UserID: 1,
+			ID:               1,
+			Title:            "Special Boiled Egg",
+			Description:      "easy daily recipe",
+			UserID:           1,
 			RecipeCategoryID: 1,
 			RecipeIngredient: []ingredients.IngredientDomain{
 				{
 					ProductID: 1,
-					Amount: "1",
+					Amount:    "1",
 				},
 			},
 			Step: []steps.StepDomain{
 				{
-					Order: 1,
+					Order:       1,
 					Instruction: "Boil the water for 3 minutes",
 				},
 			},
 		}
-		
+
 		recipeRepository.On("Update", mock.Anything, mock.Anything).Return(domain, nil).Once()
 
 		_, err := recipeUseCase.Update(context.Background(), &domain)
 		assert.NoError(t, err)
+	})
+
+	t.Run("Test 2 | Invalid Recipe ID", func(t *testing.T) {
+		errRepository := business.ErrorInvalidRecipeID
+		recipeRepository.On("RecipeByID", mock.Anything, mock.AnythingOfType("int")).Return(recipes.Domain{}, errRepository).Once()
+
+		result, err := recipeUseCase.Update(context.Background(), &recipes.Domain{})
+
+		assert.Equal(t, errRepository, err)
+		assert.Empty(t, result)
+	})
+}
+
+func TestSearch(t *testing.T) {
+	t.Run("Test 1 | Valid Test", func(t *testing.T) {
+		recipeRepository.On("Search", mock.Anything, mock.AnythingOfType("string")).Return([]recipes.Domain{{ID: 1}, {ID: 2}, {ID: 3}}, nil).Once()
+
+		result, err := recipeUseCase.Search(context.Background(), "chicken")
+
+		assert.Nil(t, err)
+		assert.NotEmpty(t, result)
+	})
+
+	t.Run("Test 2 | Recipe Not Found", func(t *testing.T) {
+		errRepository := business.ErrorDataNotFound
+		recipeRepository.On("Search", mock.Anything, mock.AnythingOfType("string")).Return([]recipes.Domain{}, errRepository).Once()
+
+		result, err := recipeUseCase.Search(context.Background(), "rice")
+
+		assert.Equal(t, errRepository, err)
+		assert.Empty(t, result)
 	})
 }

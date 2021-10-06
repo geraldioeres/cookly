@@ -88,3 +88,20 @@ func (recipeController *RecipeController) Update(c echo.Context) error {
 	}
 	return controllers.NewSuccessResponse(c, "Succefully updated recipe")
 }
+
+func (recipeController *RecipeController) Search(c echo.Context) error {
+	recipes := []responses.RecipeResponse{}
+	search := c.QueryParam("title")
+	ctx := c.Request().Context()
+
+	result, err := recipeController.RecipeUseCase.Search(ctx, search)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	for _, recipe := range result {
+		recipes = append(recipes, responses.FromDomain(recipe))
+	}
+
+	return controllers.NewSuccessResponse(c, recipes)
+}

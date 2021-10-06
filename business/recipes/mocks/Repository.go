@@ -79,6 +79,29 @@ func (_m *Repository) RecipeByID(ctx context.Context, id int) (recipes.Domain, e
 	return r0, r1
 }
 
+// Search provides a mock function with given fields: ctx, title
+func (_m *Repository) Search(ctx context.Context, title string) ([]recipes.Domain, error) {
+	ret := _m.Called(ctx, title)
+
+	var r0 []recipes.Domain
+	if rf, ok := ret.Get(0).(func(context.Context, string) []recipes.Domain); ok {
+		r0 = rf(ctx, title)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]recipes.Domain)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, title)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Update provides a mock function with given fields: ctx, data
 func (_m *Repository) Update(ctx context.Context, data *recipes.Domain) (recipes.Domain, error) {
 	ret := _m.Called(ctx, data)
