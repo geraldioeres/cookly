@@ -57,3 +57,12 @@ func (ruc *RecipeUseCase) Update(ctx context.Context, recipeDomain *Domain) (*Do
 
 	return &result, nil
 }
+
+func (ruc *RecipeUseCase) Search(ctx context.Context, title string) ([]Domain, error) {
+	result, err := ruc.recipeRepo.Search(ctx, title)
+	if err != nil {
+		return []Domain{}, err
+	}
+
+	return result, nil
+}

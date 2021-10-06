@@ -51,9 +51,19 @@ func TestCreate(t *testing.T) {
 		assert.NotEmpty(t, result)
 	})
 
-	t.Run("Test 2 | Invalid Recipe ID", func(t *testing.T) {
+	t.Run("Test 2 | Invalid Reviews of Recipe ID", func(t *testing.T) {
 		errRepostory := business.ErrorCreateData
 		reviewRepository.On("CountReviews", mock.AnythingOfType("int")).Return(0, errRepostory).Once()
+
+		_, err := reviewUseCase.Create(context.Background(), &reviews.Domain{})
+
+		assert.Error(t, err)
+	})
+
+	t.Run("Test 3 | Invalid Recipe ID", func(t *testing.T) {
+		errRepository := business.ErrorInvalidRecipeID
+		reviewRepository.On("CountReviews", mock.AnythingOfType("int")).Return(0, nil).Once()
+		recipeRepository.On("RecipeByID", mock.Anything, mock.AnythingOfType("int")).Return(recipes.Domain{}, errRepository).Once()
 
 		_, err := reviewUseCase.Create(context.Background(), &reviews.Domain{})
 

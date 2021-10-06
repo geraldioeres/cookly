@@ -77,3 +77,18 @@ func (repository *mysqlRecipeRepository) Update(ctx context.Context, recipeDomai
 
 	return update.ToDomain(), nil
 }
+
+func (repository *mysqlRecipeRepository) Search(ctx context.Context, title string) ([]recipes.Domain, error) {
+	search := []Recipe{}
+	result := repository.Conn.Where("title like ?", "%"+title+"%").Preload(clause.Associations).Preload("RecipeIngredient." + clause.Associations).Find(&search)
+	if result.Error != nil {
+		return []recipes.Domain{}, result.Error
+	}
+
+	var recipesDomain []recipes.Domain
+	for _, get := range search {
+		recipesDomain = append(recipesDomain, get.ToDomain())
+	}
+
+	return recipesDomain, nil
+}

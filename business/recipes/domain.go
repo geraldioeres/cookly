@@ -32,6 +32,7 @@ type UseCase interface {
 	RecipeByID(ctx context.Context, id int) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
 	Update(ctx context.Context, data *Domain) (*Domain, error)
+	Search(ctx context.Context, title string) ([]Domain, error)
 }
 
 type Repository interface {
@@ -39,4 +40,5 @@ type Repository interface {
 	RecipeByID(ctx context.Context, id int) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
 	Update(ctx context.Context, data *Domain) (Domain, error)
+	Search(ctx context.Context, title string) ([]Domain, error)
 }
