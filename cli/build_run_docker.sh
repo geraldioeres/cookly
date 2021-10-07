@@ -1,0 +1,1 @@
+docker build -t cookly:1.0.0 .
