@@ -12,7 +12,7 @@ on:
 jobs:
    # Job 1 : unit test
   unit-test:
-    name: "Do unit test to cookly project"
+    name: 'Do unit test to cookly project'
     runs-on: ubuntu-latest
     steps:
     - name: Setup github action (CI)
