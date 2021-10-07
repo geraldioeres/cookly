@@ -1,0 +1,20 @@
+{
+    "debug" : true,
+    "server" : {
+        "address" : ":8080"
+    },
+    "context" : {
+        "timeout" : 2
+    },
+    "database" : {
+        "host" : "cooklydb1.cphufzosehrr.us-east-2.rds.amazonaws.com",
+        "port" : "3306",
+        "user" : "admin",
+        "pass" : "13cookly4664",
+        "name" : "cookly" 
+    },
+    "jwt" : {
+        "secret" : "!letscooking!#@",
+        "expired" : 1
+    }
+}

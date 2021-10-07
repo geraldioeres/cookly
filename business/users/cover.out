@@ -1,0 +1,17 @@
+mode: set
+cookly/business/users/usecase.go:17.100,23.2 1 1
+cookly/business/users/usecase.go:25.98,27.16 2 1
+cookly/business/users/usecase.go:31.2,31.59 1 1
+cookly/business/users/usecase.go:35.2,36.23 2 1
+cookly/business/users/usecase.go:27.16,29.3 1 0
+cookly/business/users/usecase.go:31.59,33.3 1 1
+cookly/business/users/usecase.go:39.80,40.31 1 1
+cookly/business/users/usecase.go:44.2,46.16 3 1
+cookly/business/users/usecase.go:50.2,51.16 2 1
+cookly/business/users/usecase.go:55.2,55.12 1 1
+cookly/business/users/usecase.go:40.31,42.3 1 1
+cookly/business/users/usecase.go:46.16,48.3 1 0
+cookly/business/users/usecase.go:51.16,53.3 1 0
+cookly/business/users/usecase.go:58.81,60.16 2 1
+cookly/business/users/usecase.go:64.2,64.20 1 1
+cookly/business/users/usecase.go:60.16,62.3 1 1
