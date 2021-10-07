@@ -29,6 +29,7 @@ jobs:
   build-push-docker:
     name: 'Build images and push to the registry'
     runs-on: ubuntu-latest
+    needs: unit-test
     steps:
       - uses: actions/checkout@v2
       - name: build docker image
@@ -40,3 +41,28 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Push image to registry docker hub
         run: docker push geraldiors/cookly_api:1.0.0
+
+  deployment-to-ec2:
+    name: 'Deploy to EC2 from docker hub repository'
+    runs-on: ubuntu-latest
+    needs: build-push-docker
+    steps:
+      - uses: actions/checkout@v2
+      - name: configuration SSH
+        env:
+          SSH_USER: ${{ secrets.SSH_USERNAME }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/cookly.pem
+          chmod 400 ~/.ssh/cookly.pem
+          cat >>~/.ssh/config <<END
+          Host development
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/cookly.pem
+            StrictHostKeyChecking=no
+          END
+      - name: Connect EC2 & Remove All Container & Pull from Registry & Run image container
+        run: ssh development 'docker rm -f $(docker ps -a -q) " && docker pull geraldiors/cookly_api:1.0.0 && docker run -d -p 8080:8080 --name cookly geraldiors/cookly_api:1.0.0'
