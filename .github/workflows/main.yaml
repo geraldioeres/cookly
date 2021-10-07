@@ -23,3 +23,11 @@ jobs:
         go-version: 1.17
     - name: Running unit test
       run: go test ./... -cover
+
+  build-push-docker:
+    name: 'Build images and push to the registry'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: build docker image
+        run: docker build -t geraldiors/cookly_api:1.0.0 .
