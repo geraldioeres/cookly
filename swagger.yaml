@@ -1,17 +1,469 @@
 openapi: 3.0.0
 info:
-  title: cookly API
-  description: cookly API is an API to display recipes and save it
-  version: "1.0.0"
-  termsOfService: 'http://swagger.io/terms/'
+  version: 1.0.1
+  title: cookly_api
+  description: >-
+    cookly API is an API to create recipes, categories and ingredients. User can
+    view and search other users recipes. User also can give rating to other
+    user's recipes.
   contact:
-    name: Geraldio Ramadhan Safitri
     email: geralmers01@gmail.com
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/geralmers01/cookly/1.0.0
-  - url: 'https://petstore.swagger.io/v2'
+  - url: http://3.143.142.210:8080/api/v1
+    description: AWS server url
+    
+tags:
+  - name: Recipe Categories
+  - name: Recipes
+  - name: Users
+  - name: Reviews
+  - name: Products
+  
+paths:
+  /categories:
+    post:
+      summary: Create Category
+      tags:
+        - Recipe Categories
+      operationId: CreateCategory
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+    get:
+      summary: Get All Categories
+      tags:
+        - Recipe Categories
+      operationId: GetAllCategories
+      deprecated: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /categories/1:
+    put:
+      summary: Update Category
+      tags:
+        - Recipe Categories
+      operationId: UpdateCategory
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCategoryRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /recipes:
+    post:
+      summary: Create Recipe
+      tags:
+        - Recipes
+      operationId: CreateRecipe
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRecipeRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+    get:
+      summary: Get All Recipe
+      tags:
+        - Recipes
+      operationId: GetAllRecipe
+      deprecated: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /recipes/3:
+    get:
+      summary: Recipe By Id
+      tags:
+        - Recipes
+      operationId: RecipeById
+      deprecated: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /recipes/5:
+    put:
+      summary: Updated Recipe
+      tags:
+        - Recipes
+      operationId: UpdatedRecipe
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatedRecipeRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /register:
+    post:
+      summary: User Register
+      tags:
+        - Users
+      operationId: UserRegister
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /users/login:
+    post:
+      summary: Login
+      tags:
+        - Users
+      operationId: Login
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /users/5:
+    get:
+      summary: Get User By Id
+      tags:
+        - Users
+      operationId: GetUserById
+      deprecated: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /reviews:
+    post:
+      summary: Create Review
+      tags:
+        - Reviews
+      operationId: CreateReview
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReviewRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /reviews/3:
+    get:
+      summary: Get Reviews By Recipe Id
+      tags:
+        - Reviews
+      operationId: GetReviewsByRecipeId
+      deprecated: false
+
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /products:
+    post:
+      summary: Create Product
+      tags:
+        - Products
+      operationId: CreateProduct
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+    get:
+      summary: Get All Product
+      tags:
+        - Products
+      operationId: GetAllProduct
+      deprecated: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /products/10:
+    put:
+      summary: Update Product
+      tags:
+        - Products
+      operationId: UpdateProduct
+      deprecated: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+
+components:
+  securitySchemes:
+    bearer_token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CreateCategoryRequest:
+      title: CreateCategoryRequest
+      example:
+        name: Salad
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    UpdateCategoryRequest:
+      title: UpdateCategoryRequest
+      example:
+        name: Main-course
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    CreateRecipeRequest:
+      title: CreateRecipeRequest
+      example:
+        title: rice box
+        description: rice box with mixed vegetables and sunny side egg
+        userId: 11
+        recipeCategoryId: 2
+        ingredients:
+          - productId: 1
+            amount: 200 gr
+          - productId: 2
+            amount: 100 gr
+        steps:
+          - order: 1
+            instruction: boil water for 3 minutes
+          - order: 2
+            instruction: put the ingredient and boil it for 5 minutes
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        userId:
+          type: integer
+          format: int32
+        recipeCategoryId:
+          type: integer
+          format: int32
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/Step'
+      required:
+        - title
+        - description
+        - userId
+        - recipeCategoryId
+        - ingredients
+        - steps
+    Ingredient:
+      title: Ingredient
+      example:
+        productId: 1
+        amount: 200 gr
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int32
+        amount:
+          type: string
+      required:
+        - productId
+        - amount
+    Step:
+      title: Step
+      example:
+        order: 1
+        instruction: boil water for 3 minutes
+      type: object
+      properties:
+        order:
+          type: integer
+          format: int32
+        instruction:
+          type: string
+      required:
+        - order
+        - instruction
+    UpdatedRecipeRequest:
+      title: UpdatedRecipeRequest
+      example:
+        title: chicken rice box
+        description: rice box with mixed vegetables and sunny side egg
+        userId: 11
+        recipeCategoryId: 2
+        ingredients:
+          - productId: 1
+            amount: 200 gr
+          - productId: 2
+            amount: 100 gr
+        steps:
+          - order: 1
+            instruction: boil water for 3 minutes
+          - order: 2
+            instruction: put the ingredient and boil it for 5 minutes
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        userId:
+          type: integer
+          format: int32
+        recipeCategoryId:
+          type: integer
+          format: int32
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/Step'
+      required:
+        - title
+        - description
+        - userId
+        - recipeCategoryId
+        - ingredients
+        - steps
+    UserRegisterRequest:
+      title: UserRegisterRequest
+      example:
+        name: user13
+        email: user13@gmail.com
+        password: '1313'
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - name
+        - email
+        - password
+    LoginRequest:
+      title: LoginRequest
+      example:
+        email: user13@gmail.com
+        password: '1313'
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    CreateReviewRequest:
+      title: CreateReviewRequest
+      example:
+        userId: 3
+        recipeId: 100
+        rating: 3
+        comment: great recipe
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        recipeId:
+          type: integer
+          format: int32
+        rating:
+          type: number
+          format: double
+        comment:
+          type: string
+      required:
+        - userId
+        - recipeId
+        - rating
+        - comment
+    CreateProductRequest:
+      title: CreateProductRequest
+      example:
+        name: egg
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    UpdateProductRequest:
+      title: UpdateProductRequest
+      example:
+        name: onion
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+        
+security: 
+  - bearer_token: []
+  
